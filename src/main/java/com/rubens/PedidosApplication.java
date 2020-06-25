@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.rubens.domain.Categoria;
 import com.rubens.domain.Cidade;
+import com.rubens.domain.Cliente;
+import com.rubens.domain.Endereco;
 import com.rubens.domain.Estado;
 import com.rubens.domain.Produto;
+import com.rubens.domain.TipoCliente;
 import com.rubens.repositories.CategoriaRepository;
 import com.rubens.repositories.CidadeRepository;
+import com.rubens.repositories.ClienteRepository;
+import com.rubens.repositories.EnderecoRepository;
 import com.rubens.repositories.EstadoRepository;
 import com.rubens.repositories.ProdutoRepository;
 
@@ -31,6 +36,12 @@ public class PedidosApplication implements CommandLineRunner {
 	@Autowired
 	CidadeRepository cidadeRepository;
 
+	@Autowired
+	ClienteRepository clienteRepository;
+	
+	@Autowired
+	EnderecoRepository enderecoRepository;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PedidosApplication.class, args);
 	}
@@ -68,7 +79,21 @@ public class PedidosApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
-				
+		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
+		cli1.getTelefones().addAll(Arrays.asList("27363323","93838393"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "apto 203", "Jardim", "38220834", cli1, c1);
+		
+		Endereco e2 = new Endereco(null, "Av Matos", "105", "sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
+		//Cliente cli2 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);		
 
 		
 	}
