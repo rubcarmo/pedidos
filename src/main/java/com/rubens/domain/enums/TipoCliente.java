@@ -1,4 +1,4 @@
-package com.rubens.domain;
+package com.rubens.domain.enums;
 
 public enum TipoCliente {
 	PESSOAFISICA(1,"Pessoa Física"),
