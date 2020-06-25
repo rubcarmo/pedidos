@@ -13,6 +13,7 @@ import com.rubens.domain.Cidade;
 import com.rubens.domain.Cliente;
 import com.rubens.domain.Endereco;
 import com.rubens.domain.Estado;
+import com.rubens.domain.ItemPedido;
 import com.rubens.domain.Pagamento;
 import com.rubens.domain.PagamentoComBoleto;
 import com.rubens.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.rubens.repositories.CidadeRepository;
 import com.rubens.repositories.ClienteRepository;
 import com.rubens.repositories.EnderecoRepository;
 import com.rubens.repositories.EstadoRepository;
+import com.rubens.repositories.ItemPedidoRepository;
 import com.rubens.repositories.PagamentoRepository;
 import com.rubens.repositories.PedidoRepository;
 import com.rubens.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class PedidosApplication implements CommandLineRunner {
 	
 	@Autowired
 	PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(PedidosApplication.class, args);
@@ -124,6 +129,19 @@ public class PedidosApplication implements CommandLineRunner {
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 10.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 		
 		
 
